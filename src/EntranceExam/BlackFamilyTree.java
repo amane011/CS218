@@ -21,16 +21,17 @@ public class BlackFamilyTree {
         for (int i = 0; i < t; i++) {
             traitors[sc.nextInt()] = true;
         }
+        boolean[] visited=new boolean[n];
         int max = 0;
         for (int i = 0; i < n; i++) {
-            if (!traitors[i]) {
-                max = Math.max(max, dfs(graph, traitors, i));
+            if (!traitors[i] && !visited[i]) {
+                max = Math.max(max, dfs(graph, traitors, i,visited));
             }
         }
         System.out.println(max);
     }
 
-    private static int dfs(ArrayList<Integer>[]tree, boolean[] traitors, int start) {
+    private static int dfs(ArrayList<Integer>[]tree, boolean[] traitors, int start, boolean[] visited) {
         Stack<Integer> stack = new Stack<>();
         stack.push(start);
         int count = 0;
@@ -38,6 +39,7 @@ public class BlackFamilyTree {
             int node = stack.pop();
             if (!traitors[node]) {
                 count++;
+                visited[node]=true;
                 for (int child: tree[node]) {
                     stack.push(child);
                 }
@@ -46,4 +48,3 @@ public class BlackFamilyTree {
         return count;
     }
 }
-
